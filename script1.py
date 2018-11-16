@@ -35,11 +35,11 @@ while True:
 
     status_list=status_list[-2:]
 
-    if len(status_list)<2:
-        if status_list[-1]==1 and status_list[-2]==0:
-            times.append(datetime.now())
-        if status_list[-1]==0 and status_list[-2]==1:
-            times.append(datetime.now())
+    # if len(status_list)<2:
+    if status_list[-1]==1 and status_list[-2]==0:
+        times.append(datetime.now())
+    if status_list[-1]==0 and status_list[-2]==1:
+        times.append(datetime.now())
 
 
     cv2.imshow("Currently Capturing",gray)
@@ -57,7 +57,13 @@ while True:
 print(status_list)
 print(times)
 
-for i in range(0,len(times),2):
+end = None
+if len(times) % 2 != 0:
+    end = len(times) -1
+else:
+    end = len(times)
+
+for i in range(0,end,2):
     df=df.append({"Start":times[i],"End":times[i+1]},ignore_index=True)
 
 df.to_csv("Times.csv")
